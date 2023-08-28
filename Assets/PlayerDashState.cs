@@ -24,6 +24,9 @@ public class PlayerDashState : PlayerState
     {
         base.Update();
 
+        if (!player.IsGroundDetected() && player.IsWallSideDetected())
+            stateMachine.ChangeState(player.wallSide);
+
         player.setVelocity(player.dashSpeed * player.dashDir, 0);
 
         Debug.Log("Im going Dash");

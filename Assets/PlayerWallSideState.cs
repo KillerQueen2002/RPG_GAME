@@ -22,6 +22,13 @@ public class PlayerWallSideState : PlayerState
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            stateMachine.ChangeState(player.wallJump);
+            return;
+        }
+            
+
         if (xInput != 0 && player.facingdir != xInput)
             stateMachine.ChangeState(player.idleState);
 

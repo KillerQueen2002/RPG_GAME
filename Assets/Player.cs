@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerWallSideState wallSide { get; private set; }
+    public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
 
     private void Awake()
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
         airState = new PlayerAirState(this, stateMachine, "Jump");
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSide = new PlayerWallSideState(this, stateMachine, "WallSide");
+        wallJump = new PlayerWallJumpState(this, stateMachine, "wallJump");
     }
 
     private void Start()
@@ -69,6 +71,9 @@ public class Player : MonoBehaviour
 
     private void CheckForDashInput()
     {
+        if (IsWallSideDetected())// neu dang truot tuong thi ko dc dash
+            return;
+
         dashUsageTimer -= Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer <0)
