@@ -29,7 +29,7 @@ public class PlayerDashState : PlayerState
 
         player.setVelocity(player.dashSpeed * player.dashDir, 0);
 
-        Debug.Log("Im going Dash");
+       // Debug.Log("Im going Dash");
         if (stateTimer < 0)
             stateMachine.ChangeState(player.idleState);
     }

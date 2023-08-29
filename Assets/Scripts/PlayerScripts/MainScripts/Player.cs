@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     public PlayerWallSideState wallSide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
-    public PlayerPrimaryAttack primaryAttack { get; private set; }
+    public PlayerPrimaryAttackState primaryAttack { get; private set; }
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSide = new PlayerWallSideState(this, stateMachine, "WallSide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
-        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
+        primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
     }
      
     private void Start()
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
 
         dashUsageTimer -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer <0)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && dashUsageTimer <0)
         {
             dashUsageTimer = dashColldown;
             dashDir = Input.GetAxisRaw("Horizontal");
