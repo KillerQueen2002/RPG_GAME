@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Attack details")]
+    public Vector2[] attackMovement;
+    public bool isBusy { get; private set; }
     [Header("Move info")]
     public float moveSpeed = 8f;
     public float jumpForce;
@@ -37,6 +40,7 @@ public class Player : MonoBehaviour
     public PlayerWallSideState wallSide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
+    public PlayerPrimaryAttack primaryAttack { get; private set; }
 
     private void Awake()
     {
@@ -47,9 +51,10 @@ public class Player : MonoBehaviour
         airState = new PlayerAirState(this, stateMachine, "Jump");
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSide = new PlayerWallSideState(this, stateMachine, "WallSide");
-        wallJump = new PlayerWallJumpState(this, stateMachine, "wallJump");
+        wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
     }
-
+     
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -68,6 +73,22 @@ public class Player : MonoBehaviour
         //Debug.Log(IsWallSideDetected());
         CheckForDashInput();
     }
+
+    //giup delay mot doan code
+    //ham BusyFor se set isBusy = true sau do goi ham WaitforSecond de delay 
+    public IEnumerator BusyFor(float _seconds)
+    {
+        isBusy = true;  
+        yield return new WaitForSeconds(_seconds);
+        isBusy = false;
+    }
+
+    //dung ham animation trigger de goi den ham animation finish trigger
+    public void AnimationTrigger() => stateMachine.currenState.AnimationFinishTrigger();
+  
+
+   
+
 
     private void CheckForDashInput()
     {
@@ -88,13 +109,15 @@ public class Player : MonoBehaviour
             stateMachine.ChangeState(dashState);
         }
     }
-
+    #region Velocity
+    public void ZeroVelocity() => rb.velocity = new Vector2 (0, 0);
     public void setVelocity(float _xVelocity, float _yVelocity)
     {
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
-
+    #endregion
+    #region Collision
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround); // Hàm này có chức năng kiểm tra xem có đất (hoặc bề mặt đáy khác) được phát hiện ở dưới một vị trí cụ thể hay không, bằng cách thực hiện một tia raycast từ một vị trí cho trước và theo hướng xuống (Vector2.down) để kiểm tra xem có va chạm với một đối tượng định trước (whatIsGround) trong phạm vi cụ thể (wallCheckDistance).
     public bool IsWallSideDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right, wallCheckDistance, whatIsGround);
 
@@ -103,7 +126,8 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
-
+    #endregion
+    #region Flip
     public void Flip()
     {
         facingdir = facingdir * -1;
@@ -119,3 +143,4 @@ public class Player : MonoBehaviour
             Flip();
     }
 }
+#endregion
