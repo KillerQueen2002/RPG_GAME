@@ -37,6 +37,7 @@ public class PlayerPrimaryAttackState : PlayerState
         base.Exit();
         //delay runstate neu nhu nguoi choi dang trong attack state
         player.StartCoroutine("BusyFor", .15f);
+
         comboCounter++;
         lastTimeAttacked = Time.time;
     }
