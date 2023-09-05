@@ -18,11 +18,6 @@ public class Player : Entity
     public float dashDir { get; private set; }
 
 
-
-
-
-
-
     public PlayerStateMachine stateMachine { get; private set; }
 
     public PlayerIdleState idleState { get; private set; }
@@ -73,30 +68,22 @@ public class Player : Entity
 
     //dung ham animation trigger de goi den ham animation finish trigger
     public void AnimationTrigger() => stateMachine.currenState.AnimationFinishTrigger();
-<<<<<<< HEAD
-  
 
-=======
-
-
-        
-
-<<<<<<< HEAD
+    private void CheckForDashInput()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse1) && SkillManager.instance.dash.CanUseSkill())
-=======
-
         {
-            
+
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
                 dashDir = facingdir;
-
-
             stateMachine.ChangeState(dashState);
         }
     }
 }
+
+
 
 
 
