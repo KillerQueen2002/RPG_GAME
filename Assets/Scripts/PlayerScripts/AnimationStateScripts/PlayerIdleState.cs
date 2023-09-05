@@ -25,7 +25,7 @@ public class PlayerIdleState : PlayerGroundState
     {
         base.Update();
 
-        if (xInput == player.facingdir && player.IsWallSideDetected())
+        if (xInput == player.facingdir && player.IsWallDetected())
             return;
 
         if (xInput != 0 && !player.isBusy)

@@ -22,7 +22,7 @@ public class PlayerAirState : PlayerState
     {
         base.Update();
 
-        if (player.IsWallSideDetected())
+        if (player.IsWallDetected())
             stateMachine.ChangeState(player.wallSide);
 
         if (player.IsGroundDetected())
