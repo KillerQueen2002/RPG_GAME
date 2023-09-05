@@ -6,14 +6,13 @@ public class Player : MonoBehaviour
 {
     [Header("Attack details")]
     public Vector2[] attackMovement;
+
     public bool isBusy { get; private set; }
     [Header("Move info")]
     public float moveSpeed = 8f;
     public float jumpForce;
 
     [Header("Dash info")]
-    [SerializeField] float dashColldown;
-    private float dashUsageTimer;
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
@@ -63,14 +62,10 @@ public class Player : MonoBehaviour
         stateMachine.Initialize(idleState);
     }
 
-    public float timer;
-    public float cooldown;
 
     private void Update()
     {
         stateMachine.currenState.Update();
-        timer -= Time.deltaTime;
-        //Debug.Log(IsWallSideDetected());
         CheckForDashInput();
     }
 
@@ -87,19 +82,16 @@ public class Player : MonoBehaviour
     public void AnimationTrigger() => stateMachine.currenState.AnimationFinishTrigger();
   
 
-   
-
-
     private void CheckForDashInput()
     {
         if (IsWallSideDetected())// neu dang truot tuong thi ko dc dash
             return;
 
-        dashUsageTimer -= Time.deltaTime;
+        
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && dashUsageTimer <0)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && SkillManager.instance.dash.CanUseSkill())
         {
-            dashUsageTimer = dashColldown;
+            
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
