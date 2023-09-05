@@ -8267,13 +8267,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-<<<<<<< HEAD
+
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 14.654013, y: 0.76481676, z: -9.9677515}
-=======
+
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -27.93, y: 5.37, z: -10}
->>>>>>> 341a7f2646a6fb516d561ca0367cf2abfd5cab51
+
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10072,13 +10072,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713074058}
   serializedVersion: 2
-<<<<<<< HEAD
+
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 14.654013, y: 0.76481676, z: -9.9677515}
-=======
+
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -27.93, y: 5.37, z: -10}
->>>>>>> 341a7f2646a6fb516d561ca0367cf2abfd5cab51
+
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10730,7 +10730,7 @@ MonoBehaviour:
   jumpForce: 12
   dashSpeed: 25
   dashDuration: 0.2
-<<<<<<< HEAD
+
   groundCheck: {fileID: 604873951}
   groundCheckDistance: 0.15
   wallCheck: {fileID: 1447767206}
@@ -10738,10 +10738,10 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-=======
+
   timer: 0
   cooldown: 0
->>>>>>> 341a7f2646a6fb516d561ca0367cf2abfd5cab51
+
 --- !u!4 &1621775830
 Transform:
   m_ObjectHideFlags: 0
@@ -11007,9 +11007,9 @@ SceneRoots:
   - {fileID: 1621775830}
   - {fileID: 489327769}
   - {fileID: 1118186513}
-<<<<<<< HEAD
+
   - {fileID: 617515936}
   - {fileID: 1896348299}
-=======
+
   - {fileID: 1332199359}
->>>>>>> 341a7f2646a6fb516d561ca0367cf2abfd5cab51
+
