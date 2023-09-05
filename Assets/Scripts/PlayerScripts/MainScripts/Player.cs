@@ -13,6 +13,8 @@ public class Player : Entity
     public float jumpForce;
 
     [Header("Dash info")]
+    [SerializeField] float dashColldown;
+    private float dashUsageTimer;
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
@@ -71,13 +73,20 @@ public class Player : Entity
 
     private void CheckForDashInput()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1) && SkillManager.instance.dash.CanUseSkill())
-        {
+        if (IsWallDetected())// neu dang truot tuong thi ko dc dash
+            return;
 
+        dashUsageTimer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Mouse1) && dashUsageTimer < 0)
+        {
+            dashUsageTimer = dashColldown;
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
                 dashDir = facingdir;
+
+
             stateMachine.ChangeState(dashState);
         }
     }
