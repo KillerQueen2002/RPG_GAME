@@ -6,6 +6,8 @@ public class Player : Entity
 {
     [Header("Attack details")]
     public Vector2[] attackMovement;
+    public float counterAttackDuration = .2f;
+
     public bool isBusy { get; private set; }
     [Header("Move info")]
     public float moveSpeed = 8f;
@@ -19,11 +21,6 @@ public class Player : Entity
     public float dashDir { get; private set; }
 
 
-
-
-
-
-
     public PlayerStateMachine stateMachine { get; private set; }
 
     public PlayerIdleState idleState { get; private set; }
@@ -34,6 +31,7 @@ public class Player : Entity
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttackState primaryAttack { get; private set; }
+    public PLayerCouterAttackState couterAttack { get; private set; }
 
     protected override void Awake()
     {
@@ -47,6 +45,7 @@ public class Player : Entity
         wallSide = new PlayerWallSideState(this, stateMachine, "WallSide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
+        couterAttack = new PLayerCouterAttackState(this, stateMachine, "CouterAttack");
     }
 
     protected override void Start()
@@ -55,15 +54,11 @@ public class Player : Entity
         stateMachine.Initialize(idleState);
     }
 
-    public float timer;
-    public float cooldown;
 
     protected override void Update()
     {
         base.Update();
         stateMachine.currenState.Update();
-        timer -= Time.deltaTime;
-        //Debug.Log(IsWallSideDetected());
         CheckForDashInput();
     }
 
@@ -78,6 +73,7 @@ public class Player : Entity
 
     //dung ham animation trigger de goi den ham animation finish trigger
     public void AnimationTrigger() => stateMachine.currenState.AnimationFinishTrigger();
+
     private void CheckForDashInput()
     {
         if (IsWallDetected())// neu dang truot tuong thi ko dc dash
@@ -98,6 +94,8 @@ public class Player : Entity
         }
     }
 }
+
+
 
 
 
