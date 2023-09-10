@@ -7,18 +7,20 @@ public class Player : Entity
     [Header("Attack details")]
     public Vector2[] attackMovement;
     public float counterAttackDuration = .2f;
-
     public bool isBusy { get; private set; }
+
     [Header("Move info")]
     public float moveSpeed = 8f;
     public float jumpForce;
 
     [Header("Dash info")]
-    [SerializeField] float dashColldown;
-    private float dashUsageTimer;
+
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
+
+
+    public SkillManager skill { get; private set; }
 
 
     public PlayerStateMachine stateMachine { get; private set; }
@@ -51,6 +53,7 @@ public class Player : Entity
     protected override void Start()
     {
         base.Start();
+        skill = SkillManager.instance;
         stateMachine.Initialize(idleState);
     }
 
@@ -74,22 +77,23 @@ public class Player : Entity
     //dung ham animation trigger de goi den ham animation finish trigger
     public void AnimationTrigger() => stateMachine.currenState.AnimationFinishTrigger();
 
+
+
+
     private void CheckForDashInput()
     {
         if (IsWallDetected())// neu dang truot tuong thi ko dc dash
             return;
 
-        dashUsageTimer -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Mouse1) && dashUsageTimer < 0)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && SkillManager.instance.dash.CanUseSkill())
         {
-            dashUsageTimer = dashColldown;
+           
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
                 dashDir = facingdir;
 
-
+            
             stateMachine.ChangeState(dashState);
         }
     }
