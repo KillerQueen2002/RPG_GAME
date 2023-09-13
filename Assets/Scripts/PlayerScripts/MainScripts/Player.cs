@@ -12,6 +12,7 @@ public class Player : Entity
     [Header("Move info")]
     public float moveSpeed = 8f;
     public float jumpForce;
+    public float swordReturnImpact;
 
     [Header("Dash info")]
 
@@ -21,6 +22,7 @@ public class Player : Entity
 
 
     public SkillManager skill { get; private set; }
+    public GameObject sword { get; private set; }
 
 
     public PlayerStateMachine stateMachine { get; private set; }
@@ -34,6 +36,8 @@ public class Player : Entity
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttackState primaryAttack { get; private set; }
     public PLayerCouterAttackState couterAttack { get; private set; }
+    public PlayerAimSwordState aimSword { get; private set; }
+    public PlayerCatchSwordState catchSword { get; private set; }
 
     protected override void Awake()
     {
@@ -48,6 +52,9 @@ public class Player : Entity
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
         couterAttack = new PLayerCouterAttackState(this, stateMachine, "CouterAttack");
+
+        aimSword = new PlayerAimSwordState(this, stateMachine, "AimSword");
+        catchSword = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
     }
 
     protected override void Start()
@@ -63,6 +70,18 @@ public class Player : Entity
         base.Update();
         stateMachine.currenState.Update();
         CheckForDashInput();
+    }
+
+
+    public void AssignNewSword(GameObject _newSword)
+    {
+        sword = _newSword;
+    }
+
+    public void CacthTheSword()
+    {
+        stateMachine.ChangeState(catchSword);
+        Destroy(sword);
     }
 
     //giup delay mot doan code
@@ -82,20 +101,22 @@ public class Player : Entity
 
     private void CheckForDashInput()
     {
+
         if (IsWallDetected())// neu dang truot tuong thi ko dc dash
             return;
+        
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && SkillManager.instance.dash.CanUseSkill())
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
-           
-            dashDir = Input.GetAxisRaw("Horizontal");
 
+            dashDir = Input.GetAxisRaw("Horizontal");
             if (dashDir == 0)
                 dashDir = facingdir;
-
-            
             stateMachine.ChangeState(dashState);
+
         }
+
+
     }
 }
 
